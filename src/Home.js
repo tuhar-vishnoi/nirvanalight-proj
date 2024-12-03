@@ -28,7 +28,7 @@ const Home = () => {
       <section id="services" data-aos="zoom-in">
         <OurServices />
       </section>
-      <section id="about-us" data-aos="fade-left">
+      <section id="about-us" data-aos="fade-right">
         <AboutUs />
       </section>
       <section id="contact" data-aos="slide-up">
