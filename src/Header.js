@@ -263,6 +263,29 @@ const Header = () => {
                     </MenuItem>
                   ))}
                 </Menu>
+
+                {/* Consult Now Button in Mobile */}
+                <MenuItem onClick={handleOpenDialog}>
+                  <Button
+                    variant="contained"
+                    sx={{
+                      bgcolor: "orange",
+                      color: "black",
+                      borderRadius: "30px",
+                      fontFamily: "Poppins",
+                      fontSize: "15px",
+                      fontWeight: "500",
+                      textTransform: "capitalize",
+                      width: "100%",
+                      "&:hover": {
+                        color: "white",
+                        bgcolor: "darkorange",
+                      },
+                    }}
+                  >
+                    Consult Now
+                  </Button>
+                </MenuItem>
               </Menu>
             </Box>
           </Toolbar>
