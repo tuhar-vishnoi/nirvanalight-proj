@@ -9,6 +9,7 @@ import {
   Box,
   MenuItem,
 } from "@mui/material";
+import emailjs from "emailjs-com"; // Import EmailJS service
 
 const servicesOptions = [
   { value: "pronology", label: "Pronology (Name Numerology)" },
@@ -30,23 +31,18 @@ const BookNowDialog = ({ open, onClose }) => {
     amount: "",
     message: "",
   };
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    service: "",
-    date: "",
-    amount: "",
-    message: "",
-  });
+
+  const [formData, setFormData] = useState(initialFormData);
   const [showPayPal, setShowPayPal] = useState(false);
   const paypalRef = useRef();
+
   useEffect(() => {
     if (open) {
       setFormData(initialFormData); // Reset form data when the dialog opens
       setShowPayPal(false); // Ensure PayPal is hidden when the dialog is reopened
     }
   }, [open]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -61,6 +57,32 @@ const BookNowDialog = ({ open, onClose }) => {
       formData.amount &&
       !isNaN(formData.amount)
     );
+  };
+
+  const sendEmail = (formData) => {
+    const emailTemplateParams = {
+      to_email: "Nirvanalight37@gmail.com", // Replace with recipient's email
+      from_name: formData.name,
+      from_email: formData.email,
+      service: formData.service,
+      date: formData.date,
+      amount: formData.amount,
+      message: formData.message,
+    };
+
+    emailjs
+      .send(
+        "your_service_id",
+        "your_template_id",
+        emailTemplateParams,
+        "your_user_id"
+      )
+      .then((response) => {
+        console.log("Email sent successfully:", response);
+      })
+      .catch((error) => {
+        console.error("Error sending email:", error);
+      });
   };
 
   useEffect(() => {
@@ -85,6 +107,9 @@ const BookNowDialog = ({ open, onClose }) => {
             const order = await actions.order.capture();
             console.log("Order captured:", order);
             alert("Payment Successful!");
+
+            sendEmail(formData); // Send email after payment success
+
             setShowPayPal(false);
             onClose();
           },
