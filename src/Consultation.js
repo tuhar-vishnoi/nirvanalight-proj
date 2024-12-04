@@ -9,7 +9,7 @@ const Consultation = () => {
         className="consultation-container"
         style={{ backgroundImage: `url(${image7})` }}
       >
-        <div>
+        {/* <div>
           <img
             src={image8}
             alt="image8"
@@ -19,7 +19,7 @@ const Consultation = () => {
               height: "auto",
             }}
           />
-        </div>
+        </div> */}
         <div className="consultation-content">
           <h1
             style={{

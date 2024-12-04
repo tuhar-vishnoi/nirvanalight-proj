@@ -15,6 +15,7 @@ import SignatureAnalysis from "./SignatureAnalysis";
 import LogoAnalysis from "./LogoAnalysis";
 import HoroscopeApp from "./HoroscopeApp ";
 import Blog from "./Blog";
+import Privacy from "./Privacy";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -59,6 +60,7 @@ function App() {
             <Route path="/logoanalysis" element={<LogoAnalysis />} />
             <Route path="/horoscope" element={<HoroscopeApp />} />
             <Route path="/blog" element={<Blog />} />
+            <Route path="/privacy" element={<Privacy />} />
           </Routes>
         )}
         <Footer /> {/* Footer will appear on every page */}

@@ -146,6 +146,29 @@ const Footer = () => {
                 Horoscope
               </a>
             </li>
+            <li
+              style={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <span style={{ marginRight: "10px", color: "darkorange" }}>
+                {">"}
+              </span>
+              <a
+                href="/privacy"
+                style={{
+                  color: "black",
+                  textDecoration: "none",
+                  transition: "color 0.3s",
+                  fontSize: "20px",
+                }}
+                onMouseEnter={(e) => (e.target.style.color = "darkorange")}
+                onMouseLeave={(e) => (e.target.style.color = "black")}
+              >
+                Privacy Policy
+              </a>
+            </li>
           </ul>
         </div>
         <div
@@ -178,7 +201,7 @@ const Footer = () => {
             <CallIcon
               sx={{ color: "Orange", paddingTop: "25px", fontSize: "28px" }}
             />
-            <p style={{ fontSize: "20px" }}>1234567890</p>
+            <p style={{ fontSize: "20px" }}>9711120664</p>
           </Stack>
           <Stack direction="row" gap={3}>
             <MailIcon

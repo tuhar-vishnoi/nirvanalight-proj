@@ -17,7 +17,9 @@ import BookNowDialog from "./BookNowDialog";
 const Header = () => {
   const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElServices, setAnchorElServices] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
+  const [anchorElMobileServices, setAnchorElMobileServices] = useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -34,6 +36,31 @@ const Header = () => {
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
+
+  const handleServicesMenu = (event) => {
+    setAnchorElServices(event.currentTarget);
+  };
+
+  const handleCloseServicesMenu = () => {
+    setAnchorElServices(null);
+  };
+
+  const handleMobileServicesMenu = (event) => {
+    setAnchorElMobileServices(event.currentTarget);
+  };
+
+  const handleCloseMobileServicesMenu = () => {
+    setAnchorElMobileServices(null);
+  };
+
+  const services = [
+    { id: 1, title: "Pronology (Name Numerology)", route: "/namenumerology" },
+    { id: 2, title: "Personal Numerology", route: "/personalnumerology" },
+    { id: 3, title: "Corporate Numerology", route: "/corporatenumerology" },
+    { id: 4, title: "Mobile Numerology", route: "/mobilenumerology" },
+    { id: 5, title: "Signature Analysis", route: "/signatureanalysis" },
+    { id: 6, title: "Logo Analysis", route: "/logoanalysis" },
+  ];
 
   const menuItems = [
     { name: "Home", path: "/" },
@@ -75,25 +102,67 @@ const Header = () => {
                 justifyContent: "center",
               }}
             >
-              {menuItems.map((item) => (
-                <Button
-                  key={item.name}
-                  component={Link}
-                  to={item.path}
-                  sx={{
-                    my: 2,
-                    color: "white",
-                    mx: 1,
-                    fontSize: "17px",
-                    textTransform: "capitalize",
-                    "&:hover": {
-                      color: "orange",
-                    },
-                  }}
-                >
-                  {item.name}
-                </Button>
-              ))}
+              {menuItems.map((item) =>
+                item.name === "Services" ? (
+                  <Button
+                    key={item.name}
+                    sx={{
+                      my: 2,
+                      color: "white",
+                      mx: 1,
+                      fontSize: "17px",
+                      textTransform: "capitalize",
+                      "&:hover": {
+                        color: "orange",
+                      },
+                    }}
+                    onClick={handleServicesMenu}
+                  >
+                    {item.name}
+                  </Button>
+                ) : (
+                  <Button
+                    key={item.name}
+                    component={Link}
+                    to={item.path}
+                    sx={{
+                      my: 2,
+                      color: "white",
+                      mx: 1,
+                      fontSize: "17px",
+                      textTransform: "capitalize",
+                      "&:hover": {
+                        color: "orange",
+                      },
+                    }}
+                  >
+                    {item.name}
+                  </Button>
+                )
+              )}
+              {/* Services Dropdown */}
+              <Menu
+                anchorEl={anchorElServices}
+                open={Boolean(anchorElServices)}
+                onClose={handleCloseServicesMenu}
+              >
+                {services.map((service) => (
+                  <MenuItem
+                    key={service.id}
+                    onClick={() => {
+                      handleCloseServicesMenu();
+                      navigate(service.route);
+                    }}
+                    sx={{
+                      "&:hover": {
+                        color: "orange",
+                      },
+                    }}
+                  >
+                    {service.title}
+                  </MenuItem>
+                ))}
+              </Menu>
             </Box>
 
             {/* Right Button (Desktop View) */}
@@ -148,44 +217,52 @@ const Header = () => {
                 onClose={handleCloseNavMenu}
                 sx={{ display: { xs: "block", md: "none" } }}
               >
-                {menuItems.map((item) => (
-                  <MenuItem key={item.name} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">
-                      <Link
-                        to={item.path}
-                        style={{
-                          textDecoration: "none",
-                          color: "black",
-                          fontWeight: "500",
-                        }}
-                      >
-                        {item.name}
-                      </Link>
-                    </Typography>
-                  </MenuItem>
-                ))}
-                <MenuItem
-                  onClick={() => {
-                    handleCloseNavMenu();
-                    handleOpenDialog();
-                  }}
+                {menuItems.map((item) =>
+                  item.name === "Services" ? (
+                    <MenuItem
+                      key={item.name}
+                      onClick={handleMobileServicesMenu}
+                    >
+                      <Typography textAlign="center">{item.name}</Typography>
+                    </MenuItem>
+                  ) : (
+                    <MenuItem
+                      key={item.name}
+                      onClick={() => {
+                        handleCloseNavMenu();
+                        navigate(item.path);
+                      }}
+                    >
+                      <Typography textAlign="center">{item.name}</Typography>
+                    </MenuItem>
+                  )
+                )}
+
+                {/* Services Submenu in Mobile */}
+                <Menu
+                  anchorEl={anchorElMobileServices}
+                  open={Boolean(anchorElMobileServices)}
+                  onClose={handleCloseMobileServicesMenu}
+                  sx={{ ml: 2 }}
                 >
-                  <Button
-                    variant="contained"
-                    sx={{
-                      bgcolor: "orange",
-                      color: "black",
-                      width: "100%",
-                      textTransform: "capitalize",
-                      "&:hover": {
-                        color: "white",
-                        bgcolor: "darkorange",
-                      },
-                    }}
-                  >
-                    Consult Now
-                  </Button>
-                </MenuItem>
+                  {services.map((service) => (
+                    <MenuItem
+                      key={service.id}
+                      onClick={() => {
+                        handleCloseMobileServicesMenu();
+                        handleCloseNavMenu();
+                        navigate(service.route);
+                      }}
+                      sx={{
+                        "&:hover": {
+                          color: "orange",
+                        },
+                      }}
+                    >
+                      {service.title}
+                    </MenuItem>
+                  ))}
+                </Menu>
               </Menu>
             </Box>
           </Toolbar>

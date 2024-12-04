@@ -6,6 +6,7 @@ import AboutNum from "./AboutNum";
 import OurServices from "./OurServices";
 import AboutUs from "./AboutUs";
 import Consultation from "./Consultation";
+import NumerologyCalculator from "./NumerologyCalculator ";
 
 const Home = () => {
   useEffect(() => {
@@ -24,6 +25,9 @@ const Home = () => {
       </section>
       <section data-aos="fade-up">
         <AboutNum />
+      </section>
+      <section data-aos="fade-up">
+        <NumerologyCalculator />
       </section>
       <section id="services" data-aos="zoom-in">
         <OurServices />

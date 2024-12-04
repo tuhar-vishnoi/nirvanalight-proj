@@ -21,6 +21,15 @@ const servicesOptions = [
 ];
 
 const BookNowDialog = ({ open, onClose }) => {
+  const initialFormData = {
+    name: "",
+    email: "",
+    phone: "",
+    service: "",
+    date: "",
+    amount: "",
+    message: "",
+  };
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -28,13 +37,30 @@ const BookNowDialog = ({ open, onClose }) => {
     service: "",
     date: "",
     amount: "",
+    message: "",
   });
   const [showPayPal, setShowPayPal] = useState(false);
   const paypalRef = useRef();
-
+  useEffect(() => {
+    if (open) {
+      setFormData(initialFormData); // Reset form data when the dialog opens
+      setShowPayPal(false); // Ensure PayPal is hidden when the dialog is reopened
+    }
+  }, [open]);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+  };
+
+  const isFormValid = () => {
+    return (
+      formData.name &&
+      formData.email &&
+      formData.phone &&
+      formData.message &&
+      formData.amount &&
+      !isNaN(formData.amount)
+    );
   };
 
   useEffect(() => {
@@ -73,8 +99,8 @@ const BookNowDialog = ({ open, onClose }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!formData.amount || isNaN(formData.amount)) {
-      alert("Please enter a valid amount.");
+    if (!isFormValid()) {
+      alert("Please fill out all required fields.");
       return;
     }
     setShowPayPal(true);
@@ -131,7 +157,6 @@ const BookNowDialog = ({ open, onClose }) => {
             onChange={handleChange}
             variant="outlined"
             fullWidth
-            required
           >
             {servicesOptions.map((option) => (
               <MenuItem key={option.value} value={option.value}>
@@ -146,7 +171,6 @@ const BookNowDialog = ({ open, onClose }) => {
             type="date"
             InputLabelProps={{ shrink: true }}
             fullWidth
-            required
             value={formData.date}
             onChange={handleChange}
           />
@@ -158,6 +182,15 @@ const BookNowDialog = ({ open, onClose }) => {
             fullWidth
             required
             value={formData.amount}
+            onChange={handleChange}
+          />
+          <TextField
+            label="Message"
+            name="message"
+            variant="outlined"
+            fullWidth
+            required
+            value={formData.message}
             onChange={handleChange}
           />
         </Box>
@@ -189,6 +222,7 @@ const BookNowDialog = ({ open, onClose }) => {
             </Button>
             <Button
               onClick={handleSubmit}
+              disabled={!isFormValid()}
               sx={{
                 bgcolor: "orange",
                 color: "black",
