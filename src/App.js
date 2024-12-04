@@ -6,16 +6,13 @@ import Header from "./Header";
 import Home from "./Home";
 import OurServices from "./OurServices";
 import AboutUs from "./AboutUs";
-import NameNumerology from "./NameNumerology";
 import Footer from "./Footer";
-import PersonalNumerology from "./PersonalNumerology";
-import CorporateNumerology from "./CorporateNumerology";
-import MobileNumerology from "./MobileNumerology";
-import SignatureAnalysis from "./SignatureAnalysis";
-import LogoAnalysis from "./LogoAnalysis";
-import HoroscopeApp from "./HoroscopeApp ";
 import Blog from "./Blog";
 import Privacy from "./Privacy";
+import Business from "./Business";
+import Individual from "./Individual";
+import Babyname from "./Babyname";
+import NumerologyReport from "./NumerologyReport";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -46,21 +43,12 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/services" element={<OurServices />} />
             <Route path="/aboutus" element={<AboutUs />} />
-            <Route path="/namenumerology" element={<NameNumerology />} />
-            <Route
-              path="/personalnumerology"
-              element={<PersonalNumerology />}
-            />
-            <Route
-              path="/corporatenumerology"
-              element={<CorporateNumerology />}
-            />
-            <Route path="/mobilenumerology" element={<MobileNumerology />} />
-            <Route path="/signatureanalysis" element={<SignatureAnalysis />} />
-            <Route path="/logoanalysis" element={<LogoAnalysis />} />
-            <Route path="/horoscope" element={<HoroscopeApp />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/privacy" element={<Privacy />} />
+            <Route path="/business" element={<Business />} />
+            <Route path="/individual" element={<Individual />} />
+            <Route path="/babyName" element={<Babyname />} />
+            <Route path="/NumerologyReport" element={<NumerologyReport />} />
           </Routes>
         )}
         <Footer /> {/* Footer will appear on every page */}

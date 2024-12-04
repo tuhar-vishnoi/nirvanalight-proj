@@ -54,19 +54,16 @@ const Header = () => {
   };
 
   const services = [
-    { id: 1, title: "Pronology (Name Numerology)", route: "/namenumerology" },
-    { id: 2, title: "Personal Numerology", route: "/personalnumerology" },
-    { id: 3, title: "Corporate Numerology", route: "/corporatenumerology" },
-    { id: 4, title: "Mobile Numerology", route: "/mobilenumerology" },
-    { id: 5, title: "Signature Analysis", route: "/signatureanalysis" },
-    { id: 6, title: "Logo Analysis", route: "/logoanalysis" },
+    { id: 1, title: "For Business", route: "/business" },
+    { id: 2, title: "For Individual", route: "/individual" },
+    { id: 3, title: "Baby name Design", route: "/babyName" },
+    { id: 4, title: "Numerology Report", route: "/NumerologyReport" },
   ];
 
   const menuItems = [
     { name: "Home", path: "/" },
     { name: "Services", path: "/services" },
     { name: "AboutUs", path: "/aboutus" },
-    { name: "Horoscope", path: "/horoscope" },
     { name: "Blog", path: "/blog" },
   ];
 

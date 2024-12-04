@@ -6,53 +6,32 @@ import image5 from "./images/image5.jpg"; // Ensure this is the correct path to 
 const services = [
   {
     id: 1,
-    title: "Pronology (Name Numerology)",
+    title: "For Business",
     description:
-      "Discover the hidden power of your name with name numerology. Learn how it affects your life, relationships, and career choices.",
-    route: "/namenumerology",
+      "Unlock the full potential of your business by understanding the hidden numerological influence behind your business name, logo, and more. Learn how numerology can guide your business decisions, timing, and brand identity for greater success.",
+    route: "/business",
   },
   {
     id: 2,
-    title: "Personal Numerology",
+    title: "For Individual",
     description:
-      "Gain insights into your personality, life path, and destiny. Discover your core strengths and challenges based on your birthdate.",
-    route: "/personalnumerology",
+      "Explore how numerology offers deep insights into your personality and destiny. Learn about your life path, soul urge, and expression number to understand your core strengths and challenges, empowering you to make informed life choices.",
+    route: "/individual",
   },
   {
     id: 3,
-    title: "Corporate Numerology",
+    title: "Baby Name Design",
     description:
-      "Optimize your business success using numerology principles. Understand how the numbers behind your business can guide your growth.",
-    route: "/corporatenumerology",
+      "Choosing the perfect name for your baby is more than a personal decision—it can have a profound impact on their future. Learn how numerology can help you select a name that aligns with your baby’s life purpose and destiny.",
+    route: "/babyName",
   },
   {
     id: 4,
-    title: "Mobile Numerology",
+    title: "Numerology Report",
     description:
-      "Choose the perfect number for your mobile to enhance fortune. Your mobile number can influence your luck, success, and communication.",
+      "Gain insight into the influence of numbers in your life by receiving a detailed numerology report. Learn how to choose the most harmonious number for your mobile, name, and other aspects to enhance fortune, luck, and personal growth.",
     route: "/mobilenumerology",
   },
-  {
-    id: 5,
-    title: "Signature Analysis",
-    description:
-      "Unlock the secrets of your personality through your signature. The way you sign your name holds deep psychological meanings.",
-    route: "/signatureanalysis",
-  },
-  {
-    id: 6,
-    title: "Logo Analysis",
-    description:
-      "Create impactful logos that align with numerology principles. A well-designed logo with the right numerological alignment can elevate your brand.",
-    route: "/logoanalysis",
-  },
-  // {
-  //   id: 7,
-  //   title: "Wrist Watch Analysis",
-  //   description:
-  //     "Understand how the position of your wristwatch influences you. Your wristwatch can have an impact on your life path.",
-  //   route: "/wrist-watch-analysis",
-  // },
 ];
 
 const OurServices = () => {
@@ -144,7 +123,10 @@ const OurServices = () => {
             >
               {service.description}{" "}
               <span
-                onClick={() => navigate(service.route)}
+                onClick={() => {
+                  navigate(service.route);
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
                 style={{
                   color: "#e67e22",
                   fontWeight: "bold",

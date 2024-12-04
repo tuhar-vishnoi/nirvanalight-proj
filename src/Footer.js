@@ -133,29 +133,6 @@ const Footer = () => {
                 {">"}
               </span>
               <a
-                href="/horoscope"
-                style={{
-                  color: "black",
-                  textDecoration: "none",
-                  transition: "color 0.3s",
-                  fontSize: "20px",
-                }}
-                onMouseEnter={(e) => (e.target.style.color = "darkorange")}
-                onMouseLeave={(e) => (e.target.style.color = "black")}
-              >
-                Horoscope
-              </a>
-            </li>
-            <li
-              style={{
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <span style={{ marginRight: "10px", color: "darkorange" }}>
-                {">"}
-              </span>
-              <a
                 href="/privacy"
                 style={{
                   color: "black",

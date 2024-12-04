@@ -7,7 +7,7 @@ import {
   MenuItem,
   Select,
 } from "@mui/material";
-import image4 from "./images/image4.jpg";
+import image6 from "./images/image6.jpg";
 
 const NumerologyCalculator = () => {
   const [name, setName] = useState("");
@@ -24,6 +24,19 @@ const NumerologyCalculator = () => {
         .reduce((acc, digit) => acc + parseInt(digit), 0);
     }
     return num;
+  };
+
+  // Lucky Days and Colors mapping
+  const luckyProperties = {
+    1: { day: "Sunday", color: "Red" },
+    2: { day: "Monday", color: "White" },
+    3: { day: "Thursday", color: "Yellow" },
+    4: { day: "Saturday", color: "Blue" },
+    5: { day: "Wednesday", color: "Green" },
+    6: { day: "Friday", color: "Pink" },
+    7: { day: "Monday", color: "Purple" },
+    8: { day: "Saturday", color: "Dark Blue" },
+    9: { day: "Tuesday", color: "Red" },
   };
 
   // Calculate Life Path Number
@@ -129,7 +142,12 @@ const NumerologyCalculator = () => {
     e.preventDefault();
     if (calculationType === "lifePath" && birthDate) {
       const lifePathNumber = calculateLifePathNumber(birthDate);
-      setResult(`Your Life Path Number is: ${lifePathNumber}`);
+      const { day, color } = luckyProperties[lifePathNumber];
+      setResult(
+        `Your Life Path Number is: ${lifePathNumber}. 
+        Lucky Day: ${day}. 
+        Lucky Color: ${color}.`
+      );
     } else if (calculationType === "expression" && name) {
       const expressionNumber = calculateExpressionNumber(name);
       setResult(`Your Expression Number is: ${expressionNumber}`);
@@ -149,7 +167,7 @@ const NumerologyCalculator = () => {
   return (
     <div
       style={{
-        backgroundImage: `url(${image4})`,
+        backgroundImage: `url(${image6})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
