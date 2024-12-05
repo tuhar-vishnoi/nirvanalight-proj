@@ -26,14 +26,14 @@ const Home = () => {
       <section data-aos="fade-up">
         <AboutNum />
       </section>
-      <section data-aos="fade-up">
+      {/* <section data-aos="fade-up">
         <NumerologyCalculator />
+      </section> */}
+      <section id="about-us" data-aos="fade-right">
+        <AboutUs />
       </section>
       <section id="services" data-aos="zoom-in">
         <OurServices />
-      </section>
-      <section id="about-us" data-aos="fade-right">
-        <AboutUs />
       </section>
       <section id="contact" data-aos="slide-up">
         <Consultation />

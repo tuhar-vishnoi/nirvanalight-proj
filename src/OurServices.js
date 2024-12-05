@@ -80,12 +80,13 @@ const OurServices = () => {
           gap: "20px",
         }}
       >
-        {services.map((service) => (
+        {services.map((service, index) => (
           <div
             key={service.id}
             style={{
               flex: isMobile ? "1 1 100%" : "1 1 calc(30% - 20px)",
               maxWidth: isMobile ? "100%" : "30%",
+              margin: index === 3 && !isMobile ? "0 auto" : "0", // Center 4th div horizontally
               backgroundColor: "rgba(255, 255, 255, 0.9)",
               padding: "20px",
               boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
@@ -154,7 +155,7 @@ const OurServices = () => {
                 textTransform: "capitalize",
               }}
             >
-              Contact Now
+              Book An Appointment
             </a>
           </div>
         ))}

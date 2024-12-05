@@ -168,7 +168,7 @@ const Individual = () => {
                 textTransform: "capitalize",
               }}
             >
-              Contact Now
+              Book An Appointment
             </a>
           </div>
         </div>
