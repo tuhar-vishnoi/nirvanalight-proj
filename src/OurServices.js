@@ -30,7 +30,7 @@ const services = [
     title: "Numerology Report",
     description:
       "Gain insight into the influence of numbers in your life by receiving a detailed numerology report. Learn how to choose the most harmonious number for your mobile, name, and other aspects to enhance fortune, luck, and personal growth.",
-    route: "/mobilenumerology",
+    route: "/NumerologyReport",
   },
 ];
 
