@@ -13,6 +13,7 @@ import Business from "./Business";
 import Individual from "./Individual";
 import Babyname from "./Babyname";
 import NumerologyReport from "./NumerologyReport";
+import FullBlog from "./FullBlog";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -49,6 +50,7 @@ function App() {
             <Route path="/individual" element={<Individual />} />
             <Route path="/babyName" element={<Babyname />} />
             <Route path="/NumerologyReport" element={<NumerologyReport />} />
+            <Route path="/blog/:id" element={<FullBlog />} />
           </Routes>
         )}
         <Footer /> {/* Footer will appear on every page */}
