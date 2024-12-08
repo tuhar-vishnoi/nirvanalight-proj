@@ -182,7 +182,7 @@ const Header = () => {
                   },
                 }}
               >
-                Consult Now
+                Contact Now
               </Button>
             </Box>
 
@@ -280,7 +280,7 @@ const Header = () => {
                       },
                     }}
                   >
-                    Consult Now
+                    Contact Now
                   </Button>
                 </MenuItem>
               </Menu>

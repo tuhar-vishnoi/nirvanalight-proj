@@ -384,7 +384,14 @@ const NumerologyReport = () => {
         </Button>
       </form>
 
-      <div ref={paypalRef}></div>
+      <div
+        style={{
+          paddingRight: isMobile ? "0px" : "500px",
+          paddingLeft: isMobile ? "0px" : "500px",
+          display: currency === "USD" ? "block" : "none",
+        }}
+        ref={paypalRef}
+      ></div>
     </div>
   );
 };

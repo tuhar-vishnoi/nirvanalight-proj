@@ -5,7 +5,6 @@ import { ThreeDots } from "react-loader-spinner";
 import Header from "./Header";
 import Home from "./Home";
 import OurServices from "./OurServices";
-import AboutUs from "./AboutUs";
 import Footer from "./Footer";
 import Blog from "./Blog";
 import Privacy from "./Privacy";
@@ -14,6 +13,7 @@ import Individual from "./Individual";
 import Babyname from "./Babyname";
 import NumerologyReport from "./NumerologyReport";
 import FullBlog from "./FullBlog";
+import AboutUsheader from "./AboutUsheader";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -43,7 +43,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/services" element={<OurServices />} />
-            <Route path="/aboutus" element={<AboutUs />} />
+            <Route path="/aboutus" element={<AboutUsheader />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/business" element={<Business />} />
