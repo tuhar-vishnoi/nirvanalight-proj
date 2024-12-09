@@ -37,14 +37,13 @@ const Header = () => {
     setOpenDialog(false);
   };
 
-  const handleServicesMenu = (event) => {
+  const handleServicesHover = (event) => {
     setAnchorElServices(event.currentTarget);
   };
 
   const handleCloseServicesMenu = () => {
     setAnchorElServices(null);
   };
-
   const handleMobileServicesMenu = (event) => {
     setAnchorElMobileServices(event.currentTarget);
   };
@@ -113,7 +112,7 @@ const Header = () => {
                         color: "orange",
                       },
                     }}
-                    onClick={handleServicesMenu}
+                    onMouseEnter={handleServicesHover}
                   >
                     {item.name}
                   </Button>
@@ -142,6 +141,17 @@ const Header = () => {
                 anchorEl={anchorElServices}
                 open={Boolean(anchorElServices)}
                 onClose={handleCloseServicesMenu}
+                MenuListProps={{
+                  onMouseLeave: handleCloseServicesMenu,
+                }}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
               >
                 {services.map((service) => (
                   <MenuItem
@@ -185,8 +195,6 @@ const Header = () => {
                 Contact Now
               </Button>
             </Box>
-
-            {/* Mobile Menu */}
             <Box sx={{ display: { xs: "flex", md: "none" } }}>
               <IconButton
                 size="large"

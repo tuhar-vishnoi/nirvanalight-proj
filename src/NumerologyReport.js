@@ -28,6 +28,13 @@ const NumerologyReport = () => {
   const [razorpayScriptLoaded, setRazorpayScriptLoaded] = useState(false); // Track Razorpay script load
   const paypalRef = useRef();
 
+  // Check if all required fields are filled
+  const isFormComplete =
+    formData.fullName.trim() &&
+    formData.dob.trim() &&
+    formData.mobileNumber.trim() &&
+    formData.email.trim();
+
   // Handle form input change
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -303,7 +310,17 @@ const NumerologyReport = () => {
         >
           Enter Your Details to Get Your Numerology Report
         </Typography>
-
+        <p
+          style={{
+            fontFamily: "Poppins",
+            // fontWeight: 600,
+            color: "orange",
+            marginBottom: "20px",
+          }}
+        >
+          Please first fill Full Name, Dath Of Birth ,Mobile No. and Email then
+          only you are available to select currency{" "}
+        </p>
         <Box sx={{ mb: 2 }}>
           <TextField
             label="Full Name"
@@ -361,37 +378,31 @@ const NumerologyReport = () => {
             onChange={handleCurrencyChange}
             label="Currency"
             sx={{ mb: 2 }}
+            disabled={!isFormComplete}
           >
             <MenuItem value="INR">INR</MenuItem>
             <MenuItem value="USD">USD</MenuItem>
           </Select>
         </FormControl>
 
+        {currency === "USD" && (
+          <Box ref={paypalRef} sx={{ mt: 2, mb: 2 }}></Box>
+        )}
+
         <Button
-          type="submit"
           variant="contained"
+          type="submit"
           sx={{
-            backgroundColor: "#FF7F50",
-            "&:hover": {
-              backgroundColor: "#FF6347",
-            },
-            width: "100%",
-            height: "50px",
+            mt: 3,
+            backgroundColor: "#F37254",
+            "&:hover": { backgroundColor: "#FF7F50" },
           }}
+          startIcon={<FontAwesomeIcon icon={faFileAlt} />}
+          disabled={!isFormComplete}
         >
-          <FontAwesomeIcon icon={faFileAlt} sx={{ marginRight: "8px" }} />
           Generate Numerology Report
         </Button>
       </form>
-
-      <div
-        style={{
-          paddingRight: isMobile ? "0px" : "500px",
-          paddingLeft: isMobile ? "0px" : "500px",
-          display: currency === "USD" ? "block" : "none",
-        }}
-        ref={paypalRef}
-      ></div>
     </div>
   );
 };
