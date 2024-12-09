@@ -105,6 +105,16 @@ const BookNowDialog = ({ open, onClose }) => {
             required
             value={formData.email}
             onChange={handleChange}
+            error={
+              !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email) &&
+              formData.email
+            }
+            helperText={
+              !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email) &&
+              formData.email
+                ? "Invalid email format."
+                : ""
+            }
           />
           <TextField
             label="Phone Number"
@@ -114,7 +124,17 @@ const BookNowDialog = ({ open, onClose }) => {
             fullWidth
             required
             value={formData.phone}
-            onChange={handleChange}
+            onChange={(e) => {
+              const value = e.target.value;
+              if (/^\d{0,10}$/.test(value)) {
+                setFormData({ ...formData, phone: value });
+              }
+            }}
+            helperText={
+              formData.phone.length < 10 && formData.phone.length > 0
+                ? "Phone number must be 10 digits."
+                : ""
+            }
           />
           <TextField
             label="Message"

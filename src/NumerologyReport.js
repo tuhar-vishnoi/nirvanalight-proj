@@ -354,7 +354,22 @@ const NumerologyReport = () => {
             fullWidth
             name="mobileNumber"
             value={formData.mobileNumber}
-            onChange={handleChange}
+            onChange={(e) => {
+              const value = e.target.value;
+              if (/^\d{0,10}$/.test(value)) {
+                setFormData({ ...formData, mobileNumber: value });
+              }
+            }}
+            helperText={
+              formData.mobileNumber.length > 0 &&
+              formData.mobileNumber.length < 10
+                ? "Mobile number must be 10 digits."
+                : ""
+            }
+            error={
+              formData.mobileNumber.length > 0 &&
+              formData.mobileNumber.length < 10
+            }
             sx={{ mb: 2 }}
           />
         </Box>
@@ -367,6 +382,16 @@ const NumerologyReport = () => {
             name="email"
             value={formData.email}
             onChange={handleChange}
+            error={
+              !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email) &&
+              formData.email
+            }
+            helperText={
+              !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email) &&
+              formData.email
+                ? "Invalid email format."
+                : ""
+            }
             sx={{ mb: 2 }}
           />
         </Box>
