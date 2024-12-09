@@ -13,19 +13,40 @@ import {
 } from "@mui/material";
 import useSupabase from "./useSupabase"; // Custom hook for Supabase
 import Marquee from "react-fast-marquee";
+
 const AboutUsheader = () => {
   const supabase = useSupabase();
   const navigate = useNavigate();
   const [blogs, setBlogs] = useState([]);
+  const [imageUrls, setImageUrls] = useState({});
 
   useEffect(() => {
     const fetchBlogs = async () => {
       const { data, error } = await supabase
         .from("blogs")
-        .select("id, title, h1_heading, h1_description, created_at")
-        .order("created_at", { ascending: false }); // Fetch blogs ordered by newest first
+        .select("id, title, h1_heading, h1_description, created_at, imagepath")
+        .order("created_at", { ascending: false });
 
-      if (data) setBlogs(data);
+      if (data) {
+        setBlogs(data);
+
+        // Fetch the image URL for each blog
+        const urls = {};
+        for (const blog of data) {
+          if (blog.imagepath) {
+            const { data: imageUrlData, error: urlError } = supabase.storage
+              .from("banner")
+              .getPublicUrl(blog.imagepath);
+
+            if (urlError) {
+              console.error("Error fetching image URL:", urlError.message);
+            } else {
+              urls[blog.id] = imageUrlData.publicUrl;
+            }
+          }
+        }
+        setImageUrls(urls); // Store all URLs in state
+      }
       if (error) console.error("Error fetching blogs:", error.message);
     };
 
@@ -35,6 +56,7 @@ const AboutUsheader = () => {
   const handleReadMore = (id) => {
     navigate(`/blog/${id}`); // Navigate to the full blog page
   };
+
   return (
     <div>
       <div
@@ -75,7 +97,6 @@ const AboutUsheader = () => {
             lineHeight: "1.5",
             paddingLeft: "10%",
             paddingRight: "10%",
-            // color: "black",
             fontWeight: "500",
             color: "#676767",
           }}
@@ -164,6 +185,27 @@ const AboutUsheader = () => {
                     key={blog.id}
                   >
                     <CardContent>
+                      {/* Display the image if available */}
+                      {imageUrls[blog.id] && (
+                        <Box
+                          sx={{
+                            width: "100%",
+                            height: "200px",
+                            overflow: "hidden",
+                            borderRadius: "8px",
+                          }}
+                        >
+                          <img
+                            src={imageUrls[blog.id]}
+                            alt={blog.title}
+                            style={{
+                              width: "100%",
+                              height: "100%",
+                              objectFit: "cover",
+                            }}
+                          />
+                        </Box>
+                      )}
                       <Typography
                         gutterBottom
                         variant="h5"

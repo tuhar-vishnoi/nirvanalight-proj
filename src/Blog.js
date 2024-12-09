@@ -20,10 +20,29 @@ const Blog = () => {
     const fetchBlogs = async () => {
       const { data, error } = await supabase
         .from("blogs")
-        .select("id, title, h1_heading, h1_description, created_at")
-        .order("created_at", { ascending: false }); // Fetch blogs ordered by newest first
+        .select("id, title, h1_heading, h1_description, created_at, imagepath")
+        .order("created_at", { ascending: false });
 
-      if (data) setBlogs(data);
+      if (data) {
+        // Fetch public URL for each blog's image
+        const blogsWithImageUrls = await Promise.all(
+          data.map(async (blog) => {
+            if (blog.imagepath) {
+              const { data: publicUrlData, error: urlError } = supabase.storage
+                .from("banner") // Assuming 'banner' is the storage bucket name
+                .getPublicUrl(blog.imagepath);
+
+              if (urlError) {
+                console.error("Error fetching image URL:", urlError.message);
+              } else {
+                blog.imageUrl = publicUrlData.publicUrl; // Attach public URL
+              }
+            }
+            return blog;
+          })
+        );
+        setBlogs(blogsWithImageUrls);
+      }
       if (error) console.error("Error fetching blogs:", error.message);
     };
 
@@ -64,6 +83,18 @@ const Blog = () => {
           {blogs.map((blog) => (
             <Grid item xs={12} sm={6} md={4} key={blog.id}>
               <Card sx={{ maxWidth: 345, backgroundColor: "#FFF7E6" }}>
+                {blog.imageUrl && (
+                  <img
+                    src={blog.imageUrl} // Use the public URL for the image
+                    alt={blog.title}
+                    style={{
+                      width: "100%",
+                      height: "auto",
+                      borderRadius: "8px 8px 0 0",
+                    }}
+                  />
+                )}
+
                 <CardContent>
                   <Typography
                     gutterBottom

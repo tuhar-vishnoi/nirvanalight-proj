@@ -7,6 +7,7 @@ const FullBlog = () => {
   const { id } = useParams(); // Get blog ID from the URL
   const supabase = useSupabase();
   const [blog, setBlog] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -17,7 +18,22 @@ const FullBlog = () => {
         .eq("id", id)
         .single();
 
-      if (data) setBlog(data);
+      if (data) {
+        setBlog(data);
+
+        // Fetch the public image URL if imagepath exists
+        if (data.imagepath) {
+          const { data: publicUrlData, error: urlError } = supabase.storage
+            .from("banner")
+            .getPublicUrl(data.imagepath);
+
+          if (urlError) {
+            console.error("Error fetching image URL:", urlError.message);
+          } else {
+            setImageUrl(publicUrlData.publicUrl); // Set the public URL of the image
+          }
+        }
+      }
       if (error) console.error("Error fetching blog:", error.message);
       setLoading(false);
     };
@@ -61,6 +77,9 @@ const FullBlog = () => {
       >
         {blog.title}
       </Typography>
+
+      {/* Display the image after the title if it exists */}
+
       <div
         style={{
           width: "150px",
@@ -71,6 +90,20 @@ const FullBlog = () => {
           animation: "fadeIn 2s",
         }}
       ></div>
+      {imageUrl && (
+        <Box sx={{ textAlign: "center", marginBottom: 3 }}>
+          <img
+            src={imageUrl}
+            alt={blog.title}
+            style={{
+              width: "50%",
+              maxWidth: "300px",
+              height: "auto",
+              borderRadius: "8px",
+            }}
+          />
+        </Box>
+      )}
       {/* Other headings and descriptions */}
       {[1, 2, 3, 4, 5, 6].map((i) => {
         const heading = blog[`h${i}_heading`];
