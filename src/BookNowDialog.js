@@ -32,9 +32,10 @@ const BookNowDialog = ({ open, onClose }) => {
   };
 
   const isFormValid = () => {
-    return (
-      formData.name && formData.email && formData.phone && formData.message
-    );
+    // Validate all fields, including email and phone number formats
+    const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email);
+    const isPhoneValid = /^\d{10}$/.test(formData.phone);
+    return formData.name && isEmailValid && isPhoneValid && formData.message;
   };
 
   const sendEmail = (formData) => {
@@ -130,8 +131,11 @@ const BookNowDialog = ({ open, onClose }) => {
                 setFormData({ ...formData, phone: value });
               }
             }}
+            error={
+              formData.phone.length > 0 && !/^\d{10}$/.test(formData.phone)
+            }
             helperText={
-              formData.phone.length < 10 && formData.phone.length > 0
+              formData.phone.length > 0 && !/^\d{10}$/.test(formData.phone)
                 ? "Phone number must be 10 digits."
                 : ""
             }
@@ -169,7 +173,7 @@ const BookNowDialog = ({ open, onClose }) => {
         </Button>
         <Button
           onClick={handleSubmit}
-          disabled={!isFormValid()}
+          disabled={!isFormValid()} // Disable button if form is invalid
           sx={{
             bgcolor: "orange",
             color: "black",

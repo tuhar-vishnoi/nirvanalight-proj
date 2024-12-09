@@ -28,12 +28,20 @@ const NumerologyReport = () => {
   const [razorpayScriptLoaded, setRazorpayScriptLoaded] = useState(false); // Track Razorpay script load
   const paypalRef = useRef();
 
+  // Check field validity
+  const isMobileNumberValid =
+    formData.mobileNumber.length === 10 &&
+    /^\d{10}$/.test(formData.mobileNumber);
+  const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email);
+
   // Check if all required fields are filled
   const isFormComplete =
     formData.fullName.trim() &&
     formData.dob.trim() &&
-    formData.mobileNumber.trim() &&
-    formData.email.trim();
+    isMobileNumberValid &&
+    isEmailValid;
+
+  const isCurrencyDisabled = !isFormComplete;
 
   // Handle form input change
   const handleChange = (e) => {
@@ -58,7 +66,7 @@ const NumerologyReport = () => {
       script.onload = () => setPaypalScriptLoaded(true);
       document.body.appendChild(script);
       return () => {
-        document.body.removeChild(script); // Clean up PayPal script
+        document.body.removeChild(script);
       };
     }
 
@@ -69,7 +77,7 @@ const NumerologyReport = () => {
       script.onload = () => setRazorpayScriptLoaded(true);
       document.body.appendChild(script);
       return () => {
-        document.body.removeChild(script); // Clean up Razorpay script
+        document.body.removeChild(script);
       };
     }
   }, [currency, paypalScriptLoaded, razorpayScriptLoaded]);
@@ -87,7 +95,7 @@ const NumerologyReport = () => {
                   {
                     description: "Payment for Numerology Report",
                     amount: {
-                      currency_code: "USD", // USD for PayPal
+                      currency_code: "USD",
                       value: "21", // Replace with actual amount
                     },
                   },
@@ -99,7 +107,6 @@ const NumerologyReport = () => {
               console.log("Order captured:", order);
               alert("Payment Successful!");
 
-              // Send email after successful payment
               sendEmail();
             },
             onError: (err) => {
@@ -107,17 +114,17 @@ const NumerologyReport = () => {
               alert("Something went wrong with the payment.");
             },
           })
-          .render(paypalRef.current); // Render PayPal button once loaded
+          .render(paypalRef.current);
       }
     }
   }, [paypalScriptLoaded, currency]);
 
-  // Initialize Razorpay once script is loaded
+  // Handle Razorpay payment
   const handlePayment = () => {
     if (currency === "INR" && razorpayScriptLoaded) {
       const options = {
         key: "rzp_live_Rpa2wue2bjO6i9", // Replace with your Razorpay Key
-        amount: "99900", // Example amount in INR (100 paise = 1 INR)
+        amount: "99900",
         currency: "INR",
         name: "Numerology Report Payment",
         description: "Payment for Numerology Report",
@@ -125,7 +132,6 @@ const NumerologyReport = () => {
           console.log(response);
           alert("Payment successful!");
 
-          // Send email after successful payment
           sendEmail();
         },
         prefill: {
@@ -142,19 +148,19 @@ const NumerologyReport = () => {
       };
 
       try {
-        const rzp1 = new window.Razorpay(options); // Razorpay constructor
-        rzp1.open(); // Open the payment gateway
+        const rzp1 = new window.Razorpay(options);
+        rzp1.open();
       } catch (error) {
         console.error("Error initializing Razorpay:", error);
       }
     }
   };
 
-  // Function to send email using EmailJS
+  // Send email using EmailJS
   const sendEmail = () => {
     const templateParams = {
       from_name: formData.fullName,
-      to_name: "Nirvanalight37", // Recipient name
+      to_name: "Nirvanalight37",
       message: "Payment for Numerology Report completed successfully.",
       email: formData.email,
       mobile_number: formData.mobileNumber,
@@ -163,7 +169,7 @@ const NumerologyReport = () => {
     emailjs
       .send(
         "service_swhgme8", // Replace with your service ID
-        "Nirvana Light", // Replace with your template ID
+        "template_ceeewz9", // Replace with your template ID
         templateParams,
         "p6G7HSuuH8rrGdziD" // Replace with your user ID
       )
@@ -181,7 +187,7 @@ const NumerologyReport = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
-    handlePayment(); // Trigger payment method
+    handlePayment();
   };
   const data = [
     {
@@ -292,12 +298,7 @@ const NumerologyReport = () => {
 
       <form
         onSubmit={handleSubmit}
-        style={{
-          marginTop: "30px",
-          textAlign: "center",
-          maxWidth: "500px",
-          margin: "0 auto",
-        }}
+        style={{ maxWidth: "500px", margin: "0 auto" }}
       >
         <Typography
           variant="h6"
@@ -321,89 +322,67 @@ const NumerologyReport = () => {
           Please first fill Full Name, Dath Of Birth ,Mobile No. and Email then
           only you are available to select currency{" "}
         </p>
-        <Box sx={{ mb: 2 }}>
-          <TextField
-            label="Full Name"
-            variant="outlined"
-            fullWidth
-            name="fullName"
-            value={formData.fullName}
-            onChange={handleChange}
-            sx={{ mb: 2 }}
-          />
-        </Box>
-
-        <Box sx={{ mb: 2 }}>
-          <TextField
-            label="Date of Birth"
-            variant="outlined"
-            fullWidth
-            type="date"
-            name="dob"
-            value={formData.dob}
-            onChange={handleChange}
-            InputLabelProps={{ shrink: true }}
-            sx={{ mb: 2 }}
-          />
-        </Box>
-
-        <Box sx={{ mb: 2 }}>
-          <TextField
-            label="Mobile Number"
-            variant="outlined"
-            fullWidth
-            name="mobileNumber"
-            value={formData.mobileNumber}
-            onChange={(e) => {
-              const value = e.target.value;
-              if (/^\d{0,10}$/.test(value)) {
-                setFormData({ ...formData, mobileNumber: value });
-              }
-            }}
-            helperText={
-              formData.mobileNumber.length > 0 &&
-              formData.mobileNumber.length < 10
-                ? "Mobile number must be 10 digits."
-                : ""
+        <TextField
+          label="Full Name"
+          variant="outlined"
+          fullWidth
+          name="fullName"
+          value={formData.fullName}
+          onChange={handleChange}
+          sx={{ mb: 2 }}
+        />
+        <TextField
+          label="Date of Birth"
+          variant="outlined"
+          fullWidth
+          type="date"
+          name="dob"
+          value={formData.dob}
+          onChange={handleChange}
+          InputLabelProps={{ shrink: true }}
+          sx={{ mb: 2 }}
+        />
+        <TextField
+          label="Mobile Number"
+          variant="outlined"
+          fullWidth
+          name="mobileNumber"
+          value={formData.mobileNumber}
+          onChange={(e) => {
+            const value = e.target.value;
+            if (/^\d{0,10}$/.test(value)) {
+              setFormData({ ...formData, mobileNumber: value });
             }
-            error={
-              formData.mobileNumber.length > 0 &&
-              formData.mobileNumber.length < 10
-            }
-            sx={{ mb: 2 }}
-          />
-        </Box>
-
-        <Box sx={{ mb: 2 }}>
-          <TextField
-            label="Email ID"
-            variant="outlined"
-            fullWidth
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            error={
-              !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email) &&
-              formData.email
-            }
-            helperText={
-              !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email) &&
-              formData.email
-                ? "Invalid email format."
-                : ""
-            }
-            sx={{ mb: 2 }}
-          />
-        </Box>
-
+          }}
+          helperText={
+            formData.mobileNumber.length > 0 && !isMobileNumberValid
+              ? "Mobile number must be 10 digits."
+              : ""
+          }
+          error={formData.mobileNumber.length > 0 && !isMobileNumberValid}
+          sx={{ mb: 2 }}
+        />
+        <TextField
+          label="Email ID"
+          variant="outlined"
+          fullWidth
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          helperText={
+            formData.email.length > 0 && !isEmailValid
+              ? "Invalid email format."
+              : ""
+          }
+          error={formData.email.length > 0 && !isEmailValid}
+          sx={{ mb: 2 }}
+        />
         <FormControl fullWidth>
           <InputLabel>Currency</InputLabel>
           <Select
             value={currency}
             onChange={handleCurrencyChange}
-            label="Currency"
-            sx={{ mb: 2 }}
-            disabled={!isFormComplete}
+            disabled={isCurrencyDisabled}
           >
             <MenuItem value="INR">INR</MenuItem>
             <MenuItem value="USD">USD</MenuItem>
