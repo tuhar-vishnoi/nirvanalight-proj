@@ -1,7 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import useSupabase from "./useSupabase"; // Custom hook to initialize Supabase
 import image4 from "./images/image4.jpg"; // Import the image
 
 const AboutNum = () => {
+  const supabase = useSupabase();
+  const [data, setData] = useState({
+    heading: "",
+    pera1: "",
+    pera2: "",
+    pera3: "",
+    pera4: "",
+  });
+
+  // Fetch data from the section1 table
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data, error } = await supabase
+        .from("section1")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .single();
+
+      if (error) {
+        console.error("Error fetching data:", error);
+      } else {
+        setData({
+          heading: data.heading || "",
+          pera1: data.pera1 || "",
+          pera2: data.pera2 || "",
+          pera3: data.pera3 || "",
+          pera4: data.pera4 || "",
+        });
+      }
+    };
+
+    fetchData();
+  }, [supabase]);
+
   return (
     <div>
       <div
@@ -23,7 +59,7 @@ const AboutNum = () => {
             color: "#032e42",
           }}
         >
-          Discover the Power of Numerology
+          {data.heading}
         </h1>
         <div
           style={{
@@ -42,24 +78,50 @@ const AboutNum = () => {
             lineHeight: "1.5",
             paddingLeft: "10%",
             paddingRight: "10%",
-            // color: "black",
             fontWeight: "500",
             color: "#676767",
           }}
         >
-          Numerology is the ancient study of numbers and their hidden meanings,
-          offering profound insights into our lives. It is based on the belief
-          that numbers have unique vibrations and energies that influence
-          everything from our personalities to our life paths. By understanding
-          these patterns, you can unlock deep insights into your destiny,
-          strengths, challenges, and relationships. Every individual has a Life
-          Path Number, calculated from their birthdate, which reveals their core
-          purpose and direction in life. The Destiny Number, derived from your
-          full name, uncovers your true potential and what you are meant to
-          accomplish in this lifetime.The Soul Urge Number dives into your
-          innermost desires, revealing what your heart truly seeks, while Karmic
-          Numbers highlight the lessons you need to learn, shedding light on how
-          past actions influence your present journey.
+          {data.pera1}
+        </p>
+        <p
+          style={{
+            fontSize: "1rem",
+            marginTop: "15px",
+            lineHeight: "1.5",
+            paddingLeft: "10%",
+            paddingRight: "10%",
+            fontWeight: "500",
+            color: "#676767",
+          }}
+        >
+          {data.pera2}
+        </p>
+        <p
+          style={{
+            fontSize: "1rem",
+            marginTop: "15px",
+            lineHeight: "1.5",
+            paddingLeft: "10%",
+            paddingRight: "10%",
+            fontWeight: "500",
+            color: "#676767",
+          }}
+        >
+          {data.pera3}
+        </p>
+        <p
+          style={{
+            fontSize: "1rem",
+            marginTop: "15px",
+            lineHeight: "1.5",
+            paddingLeft: "10%",
+            paddingRight: "10%",
+            fontWeight: "500",
+            color: "#676767",
+          }}
+        >
+          {data.pera4}
         </p>
       </div>
     </div>

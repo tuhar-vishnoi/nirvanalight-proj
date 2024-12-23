@@ -1,25 +1,41 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import useSupabase from "./useSupabase"; // Custom hook to initialize Supabase
 import image7 from "./images/image7.jpg";
-import image8 from "./images/image8.jpg";
 
 const Consultation = () => {
+  const supabase = useSupabase();
+  const [data, setData] = useState(null);
+
+  // Fetch data from the `section2` table
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data: sectionData, error } = await supabase
+        .from("section2")
+        .select("*")
+        .order("created_at", { ascending: false }) // Fetch the most recent data
+        .limit(1)
+        .single();
+
+      if (error) {
+        console.error("Error fetching data:", error);
+      } else {
+        setData(sectionData);
+      }
+    };
+
+    fetchData();
+  }, [supabase]);
+
+  if (!data) {
+    return <p>Loading...</p>; // Show a loading message while fetching data
+  }
+
   return (
     <>
       <div
         className="consultation-container"
         style={{ backgroundImage: `url(${image7})` }}
       >
-        {/* <div>
-          <img
-            src={image8}
-            alt="image8"
-            className="consultation-image"
-            style={{
-              width: "100%",
-              height: "auto",
-            }}
-          />
-        </div> */}
         <div className="consultation-content">
           <h1
             style={{
@@ -29,7 +45,7 @@ const Consultation = () => {
               color: "#032e42",
             }}
           >
-            Discover the Advice You Need
+            {data.heading}
           </h1>
           <div
             style={{
@@ -49,14 +65,40 @@ const Consultation = () => {
               fontWeight: "500",
             }}
           >
-            Unlock clarity and confidence in your journey through personalized
-            guidance. Whether you're seeking answers to life's pressing
-            questions, strategies to overcome challenges, or insights to help
-            you thrive, we are here to provide expert advice tailored to your
-            unique needs. With a compassionate approach and proven methods, we
-            help you navigate complexities, make informed decisions, and create
-            a roadmap to success and fulfillment. Let’s embark on this
-            transformative journey together!
+            {data.pera1}
+          </p>
+          <p
+            style={{
+              fontSize: "1rem",
+              marginTop: "15px",
+              lineHeight: "1.6",
+              color: "#676767",
+              fontWeight: "500",
+            }}
+          >
+            {data.pera2}
+          </p>
+          <p
+            style={{
+              fontSize: "1rem",
+              marginTop: "15px",
+              lineHeight: "1.6",
+              color: "#676767",
+              fontWeight: "500",
+            }}
+          >
+            {data.pera3}
+          </p>
+          <p
+            style={{
+              fontSize: "1rem",
+              marginTop: "15px",
+              lineHeight: "1.6",
+              color: "#676767",
+              fontWeight: "500",
+            }}
+          >
+            {data.pera4}
           </p>
         </div>
       </div>

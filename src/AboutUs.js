@@ -1,7 +1,50 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import useSupabase from "./useSupabase"; // Custom hook for Supabase
 import image6 from "./images/image6.jpg";
 
 const AboutUs = () => {
+  const supabase = useSupabase();
+  const [content, setContent] = useState({
+    pera1: "",
+    pera2: "",
+    pera3: "",
+    pera4: "",
+    pera5: "",
+  });
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchAboutUsContent = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("aboutUs")
+          .select("*")
+          .single();
+
+        if (error) {
+          console.error("Error fetching About Us content:", error);
+        } else {
+          setContent(data || {});
+        }
+      } catch (err) {
+        console.error("Unexpected error:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAboutUsContent();
+  }, [supabase]);
+
+  if (loading) {
+    return (
+      <div style={{ textAlign: "center", marginTop: "50px" }}>
+        <p>Loading About Us content...</p>
+      </div>
+    );
+  }
+
   return (
     <div>
       <div
@@ -42,34 +85,23 @@ const AboutUs = () => {
             lineHeight: "1.5",
             paddingLeft: "10%",
             paddingRight: "10%",
-            // color: "black",
             fontWeight: "500",
             color: "#676767",
           }}
         >
-          Welcome to Nirvana Light , where the timeless power of numerology is
-          harnessed to shape your future and elevate your business.
-          Understanding and aligning with your unique numerical blueprint can
-          unlock extraordinary possibilities. Our tailored services are designed
-          to help you navigate life's journey with confidence, whether through
-          personalized insights from your birth numbers and planetary influences
-          or by optimizing names and logos to resonate with your deepest
-          aspirations.
+          {content.pera1}
           <br />
           <br />
-          Imagine transforming your signature into a powerful tool that attracts
-          success, or aligning your business strategies with numerological
-          principles to boost growth and harmony. Our expertise extends to
-          mobile numerology, ensuring your contact number vibrates with positive
-          energy and attracting abundance , also crafting logos that perfectly
-          reflect and enhance your brand’s essence and vision.
+          {content.pera2}
           <br />
           <br />
-          By integrating the wisdom of numerology into your personal and
-          professional life, we help you make informed decisions and embrace
-          opportunities that align with your true potential. Step into a world
-          where numbers guide you to a more fulfilling and prosperous future
-          with Nirvana Light .
+          {content.pera3}
+          <br />
+          <br />
+          {content.pera4}
+          <br />
+          <br />
+          {content.pera5}
         </p>
       </div>
     </div>
